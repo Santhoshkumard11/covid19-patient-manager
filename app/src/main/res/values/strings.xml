@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">covid19-patient-manager</string>
+
+    <string-array name="Options">
+        <item>Settings</item>
+        <item>Exit</item>
+    </string-array>
+
 </resources>

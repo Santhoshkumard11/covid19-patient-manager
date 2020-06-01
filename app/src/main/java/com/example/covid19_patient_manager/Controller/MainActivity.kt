@@ -11,11 +11,14 @@ import androidx.core.content.ContextCompat.startActivity
 import com.example.covid19_patient_manager.Model.AdminModel
 import com.example.covid19_patient_manager.R
 import kotlinx.android.synthetic.main.login_layout.*
-
+import com.example.covid19_patient_manager.Controller.ValidationClass.*
 
 class MainActivity : AppCompatActivity() {
 
     var admin: AdminModel = AdminModel("", "")
+
+    //validation class for email and password validation
+    val v : ValidationClass = ValidationClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,23 +29,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun isValidEmail(target: CharSequence?): Boolean {
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target)
-            .matches()
-    }
-
-    fun isValidPassword(password: String?) : Boolean {
-        password?.let {
-            val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
-            val passwordMatcher = Regex(passwordPattern)
-
-            return passwordMatcher.find(password) != null
-        } ?: return false
-    }
 
     fun onClickLogin(view: View) {
 
-        if (isValidEmail(emailfield.text.toString()) && isValidPassword(passwordfield.text.toString())) {
+        if (v.isValidEmail(emailfield.text.toString()) && v.isValidPassword(passwordfield.text.toString())) {
 
             val dashboard = Intent(this, DashboardActivity::class.java)
 
@@ -52,10 +42,10 @@ class MainActivity : AppCompatActivity() {
         else {
 
 
-            if(!isValidEmail(emailfield.text.toString()))
+            if(!v.isValidEmail(emailfield.text.toString()))
                 Toast.makeText(this, "Enter a valid email id", Toast.LENGTH_SHORT).show()
 
-            if(!isValidPassword(passwordfield.text.toString()))
+            if(!v.isValidPassword(passwordfield.text.toString()))
                 Toast.makeText(this, "Enter a valid  password", Toast.LENGTH_LONG).show()
 
 

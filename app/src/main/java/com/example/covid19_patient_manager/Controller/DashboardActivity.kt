@@ -6,10 +6,13 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.example.covid19_patient_manager.Model.PatientDetailsModel
 import com.example.covid19_patient_manager.R
 import kotlinx.android.synthetic.main.dashboard_layout.*
 
 class DashboardActivity : AppCompatActivity() {
+
+    var patientList : List<PatientDetailsModel> = List<PatientDetailsModel>(10,0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -16,13 +16,13 @@ class SignUpActivity : AppCompatActivity() {
 
         var v : ValidationClass = ValidationClass()
 
-        fun onClickLogin(view: View) {
+        fun onClickSighup(view: View) {
 
 //            println("inside the fun")
 
             if (v.isValidEmail(emailfield.text.toString()) && v.isValidPassword(passwordfield.text.toString())) {
 
-//                println("inside the condiation")
+//
                 val dashboard = Intent(this, DashboardActivity::class.java)
 
                 startActivity(dashboard)

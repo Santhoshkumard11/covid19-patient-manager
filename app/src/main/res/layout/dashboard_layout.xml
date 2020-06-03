@@ -78,4 +78,18 @@
         app:layout_constraintVertical_bias="0.15"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <Button
+        android:id="@+id/logout_btn"
+        android:layout_width="141dp"
+        android:layout_height="56dp"
+        android:background="@drawable/rounded_corner"
+        android:onClick="onClickLogout"
+        android:text="Sign Out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.89" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

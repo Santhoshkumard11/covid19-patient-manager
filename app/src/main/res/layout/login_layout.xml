@@ -60,8 +60,8 @@
 
     <Button
         android:id="@+id/loginbtn"
-        android:layout_width="162dp"
-        android:layout_height="54dp"
+        android:layout_width="146dp"
+        android:layout_height="45dp"
         android:background="@drawable/formatbutton"
         android:fontFamily="@font/aldrich"
         android:onClick="onClickLogin"
@@ -70,10 +70,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.462" />
+        app:layout_constraintVertical_bias="0.074" />
 
     <TextView
         android:id="@+id/notregisteredusertext"
@@ -83,8 +83,43 @@
         android:text="Not a registered user?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginbtn"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.532" />
+
+    <Button
+        android:id="@+id/google_login_btn"
+        android:layout_width="255dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_corner"
+        android:drawableStart="@drawable/common_google_signin_btn_icon_light_normal"
+        android:drawableLeft="@drawable/common_google_signin_btn_text_light_normal"
+        android:drawablePadding="8dp"
+        android:onClick="onClickGoogleLogin"
+        android:padding="8dp"
+        android:text="Sign in with Google"
+        android:textAllCaps="false"
+        android:textColor="@color/GoogleTextColor"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loginbtn"
+        app:layout_constraintVertical_bias="0.338" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="149dp"
+        android:layout_height="131dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.244" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,8 @@
     </string-array>
 
     <string name="name">Name</string>
-    <string name="type">Type</string>
-    <string name="dateTime">Date/Time</string>
+    <string name="type">Gender</string>
+    <string name="dateTime">Admitted Date</string>
     <string name="addAppointButton">Add Patient</string>
     <string name="btnCancel">Cancel</string>
 

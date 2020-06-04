@@ -11,8 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Controller.SignUpActivity"></activity>
         <activity android:name=".Controller.DashboardActivity" />
-        <activity android:name=".Controller.Dashboard" />
-        <activity android:name=".Controller.MainActivity">
+        <activity android:name=".Controller.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +22,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7816942592181030~3668494804"/>
     </application>
 
 </manifest>

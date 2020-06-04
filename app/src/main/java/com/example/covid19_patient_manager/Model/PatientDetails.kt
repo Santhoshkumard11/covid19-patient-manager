@@ -4,5 +4,6 @@ import java.text.DateFormat
 import java.util.*
 
 open class PatientDetailsModel
-constructor(name: String, age: Int, gender: String, dateOfAdmit : Date, dateOfDischarge : Date, state: String, district: String ){
-}
+    (var name: String = "", var type: String = "",
+     var monthDate: String = "", var dayDate: Int = 1, var yearDate: Int = 1,
+     var hourTime: Int = 1, var minuteTime: Int = 1, var AMorPMTime: String = "")

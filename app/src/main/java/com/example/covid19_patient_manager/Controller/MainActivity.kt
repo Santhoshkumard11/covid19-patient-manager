@@ -17,7 +17,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +44,13 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     override fun onResume() {
         super.onResume()
         progressBar.visibility = View.GONE
-        Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_LONG).show()
+        val user = FirebaseAuth.getInstance().currentUser
+        if( user == null)
+            Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_LONG).show()
     }
 
 
@@ -77,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     if (passwordfield.text.toString().length < 6) {
                         passwordfield.error = getString(R.string.minimum_password)
                     } else {
-                        Toast.makeText(this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this,getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
                     }
                 } else {
 

@@ -2,11 +2,8 @@
     <string name="app_name">covid19-patient-manager</string>
 
     <string-array name="task_type">
-        <item>More</item>
-        <item>profile</item>
-        <item>Settings</item>
-        <item>Notifications</item>
-        <item>Log out</item>
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
     <string name="name">Name</string>

@@ -1,5 +1,6 @@
 package com.example.covid19_patient_manager.Controller
 
+import android.app.Application
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-
+import com.example.covid19_patient_manager.Controller.DashboardActivity
 import java.util.Calendar;
 
 class AddAppointmentFragment : Fragment() {
@@ -38,11 +39,13 @@ class AddAppointmentFragment : Fragment() {
     private var minute: Int = 0
 
     private var listener: AddAppointmentFragment.OnItemSelectedListener? = null
-
+    //firebase authenticaiton
     private var mAuth: FirebaseAuth? = null
-
+    //firebase database
     private lateinit var database: DatabaseReference
 
+    //for counting the number of patients added to the database
+    private var patientCount: Int = 0
 
     internal var ondate: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
         year = selectedYear
@@ -265,7 +268,19 @@ class AddAppointmentFragment : Fragment() {
         database = Firebase.database.reference
         mAuth = FirebaseAuth.getInstance()
 
-        database.child("Users").child(mAuth!!.uid.toString()).setValue(myModel)
+        //for counting the number of patients added to the database
+        myModel.count = patientCount
+        patientCount++
+
+        database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Detials").child(myModel!!.count.toString()).setValue(myModel)
+            .addOnSuccessListener {
+                Toast.makeText(activity, "Success added to the database",Toast.LENGTH_SHORT).show()
+
+            }
+            .addOnFailureListener{
+                Toast.makeText(activity, "Failed to add to database",Toast.LENGTH_SHORT).show()
+
+            }
 
     }
 

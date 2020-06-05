@@ -263,6 +263,11 @@ class AddAppointmentFragment : Fragment() {
         }
     }
 
+
+    private fun Context.toast(context: Context = applicationContext, message: String, duration: Int = Toast.LENGTH_SHORT){
+        Toast.makeText(context, message , duration).show()
+    }
+
     private fun addModelToDatabase( myModel: PatientDetailsModel)
     {
         database = Firebase.database.reference
@@ -270,19 +275,15 @@ class AddAppointmentFragment : Fragment() {
 
         //for counting the number of patients added to the database
         myModel.count = patientCount
-        patientCount++
 
         database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Detials").child(myModel!!.count.toString()).setValue(myModel)
-            .addOnSuccessListener {
-                Toast.makeText(activity, "Success added to the database",Toast.LENGTH_SHORT).show()
 
-            }
-            .addOnFailureListener{
-                Toast.makeText(activity, "Failed to add to database",Toast.LENGTH_SHORT).show()
-
-            }
+        patientCount += 1
 
     }
+
+
+
 
 
 

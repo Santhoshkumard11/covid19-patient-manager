@@ -28,9 +28,9 @@ import java.text.SimpleDateFormat
 
 class MainFragment : Fragment() {
 
-
-    var appointmentArrayList = ArrayList<PatientDetailsModel>()
-
+    companion object {
+        var appointmentArrayList = ArrayList<PatientDetailsModel>()
+    }
     private var listener: OnItemSelectedListener? = null
 
     //firebase authenticaiton
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        populateAppointments()
+
     }
 
     interface OnItemSelectedListener {
@@ -142,8 +142,8 @@ class MainFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
 
         database = Firebase.database.reference
 

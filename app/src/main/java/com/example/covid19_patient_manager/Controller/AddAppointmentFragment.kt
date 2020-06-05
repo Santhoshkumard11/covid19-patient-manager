@@ -45,7 +45,11 @@ class AddAppointmentFragment : Fragment() {
     private lateinit var database: DatabaseReference
 
     //for counting the number of patients added to the database
-    private var patientCount: Int = 0
+    companion object {
+        var patientCount:Int=0;
+    }
+
+
 
     internal var ondate: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
         year = selectedYear
@@ -82,6 +86,7 @@ class AddAppointmentFragment : Fragment() {
                         DisplayTheMonthInCharacters(month), day, year, FormatTheHour(hour), minute, AMorPM(hour))
 
                         //add model to the firebase database
+
                         addModelToDatabase(app)
 
 
@@ -276,9 +281,11 @@ class AddAppointmentFragment : Fragment() {
         //for counting the number of patients added to the database
         myModel.count = patientCount
 
+        patientCount += 1
+
         database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Detials").child(myModel!!.count.toString()).setValue(myModel)
 
-        patientCount += 1
+
 
     }
 

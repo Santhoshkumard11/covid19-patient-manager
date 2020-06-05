@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,15 +16,26 @@ import kotlinx.android.synthetic.main.login_layout.*
 import com.example.covid19_patient_manager.Controller.ValidationClass.*
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.example.covid19_patient_manager.Model.User
+
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
+
+    private lateinit var database: DatabaseReference
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
 
+        database = Firebase.database.reference
         mAuth = FirebaseAuth.getInstance()
 
 
@@ -32,7 +44,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        //getting the firebase authenticaiton and database instance
         val auth = FirebaseAuth.getInstance()
+
 
         if ( auth.currentUser != null)
         {
@@ -49,8 +63,8 @@ class LoginActivity : AppCompatActivity() {
         super.onResume()
         progressBar.visibility = View.GONE
         val user = FirebaseAuth.getInstance().currentUser
-        if( user == null)
-            Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_LONG).show()
+//        if( user == null)
+//            Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_LONG).show()
     }
 
 
@@ -84,6 +98,9 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } else {
 
+                    loginTransationLogsToDatabase()
+
+
                     startActivity(Intent(this, DashboardActivity::class.java))
                     finish()
                 }
@@ -98,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        //login in with google sign in
         if( requestCode == 1234)
         {
             val response = IdpResponse.fromResultIntent(data)
@@ -109,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Successfully signed in", Toast.LENGTH_LONG).show()
 
                 val dashboard = Intent(this, DashboardActivity::class.java)
-//
+
                 startActivity(dashboard)
 
             }
@@ -117,10 +135,9 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Failed to sign in", Toast.LENGTH_LONG).show()
 
 
-
-
         }
 
+        //login with gmail
         if( requestCode == 1111)
         {
             val response = IdpResponse.fromResultIntent(data)
@@ -128,12 +145,9 @@ class LoginActivity : AppCompatActivity() {
             if ( resultCode == Activity.RESULT_OK)
             {
                 //successfully signed in
-                val user = FirebaseAuth.getInstance().currentUser
+
                 Toast.makeText(applicationContext, "Successfully signed in", Toast.LENGTH_LONG).show()
-
-                val dashboard = Intent(this, DashboardActivity::class.java)
-
-                startActivity(dashboard)
+                startActivity(Intent(this, DashboardActivity::class.java))
             }
             else
                 Toast.makeText(applicationContext, "Failed to sign in", Toast.LENGTH_LONG).show()
@@ -141,7 +155,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    //login with google
+    //register a new user
     fun onClickRegister (view: View)
     {
         val providers = arrayListOf(
@@ -156,7 +170,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    //login with email and password
+    //login with google
     fun onClickGoogleLogin ( view: View){
 
         val providers = arrayListOf(
@@ -168,6 +182,29 @@ class LoginActivity : AppCompatActivity() {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .build(), 1234)
+
+    }
+
+
+    fun loginTransationLogsToDatabase() {
+
+        val user = FirebaseAuth.getInstance().currentUser
+//        //                    writing to the database
+
+
+        // Write a message to the database
+
+
+        val userId = user!!.uid
+        val userName = user!!.displayName
+        val emailAddress = user!!.email
+
+        val myUser = User(userId.toString(), userName.toString(), emailAddress.toString())
+
+        database.child(userId.toString()).setValue(myUser)
+
+        Toast.makeText(this, "data added to the database",Toast.LENGTH_LONG).show()
+
 
     }
 

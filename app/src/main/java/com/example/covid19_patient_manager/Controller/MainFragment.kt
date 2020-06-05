@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,12 @@ import androidx.fragment.app.Fragment
 import com.example.covid19_patient_manager.Model.PatientDetailsModel
 import com.example.covid19_patient_manager.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 
 class MainFragment : Fragment() {
@@ -26,8 +33,16 @@ class MainFragment : Fragment() {
 
     private var listener: OnItemSelectedListener? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    //firebase authenticaiton
+    private var mAuth: FirebaseAuth? = null
+
+    //firebase database
+    private lateinit var database: DatabaseReference
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
         val b = view.findViewById<View>(R.id.button) as Button
@@ -71,7 +86,8 @@ class MainFragment : Fragment() {
         val formatDate = SimpleDateFormat("MMM d, yyyy") //Date Format
 
         val todaysDate = formatDate.format(currentDateAndTime) //Today's date formated
-        val passDate = appointment.monthDate + " " + appointment.dayDate + ", " + appointment.yearDate //Tasks date formated the same way
+        val passDate =
+            appointment.monthDate + " " + appointment.dayDate + ", " + appointment.yearDate //Tasks date formated the same way
 
         return if (todaysDate == passDate) { //Compare today's date and passed date, return time if dates match
             appointment.hourTime.toString() + ":" + appointment.minuteTime + " " + appointment.AMorPMTime
@@ -85,7 +101,10 @@ class MainFragment : Fragment() {
         val appointmentTBL = activity!!.findViewById<View>(R.id.tblTaskContent) as TableLayout
 
         val newTableRow = TableRow(activity)
-        val lp = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+        val lp = TableRow.LayoutParams(
+            TableRow.LayoutParams.MATCH_PARENT,
+            TableRow.LayoutParams.WRAP_CONTENT
+        )
         newTableRow.layoutParams = lp
 
         val txtvName = TextView(activity)
@@ -104,7 +123,8 @@ class MainFragment : Fragment() {
         txtvType.textSize = 12f
         txtvType.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-        val txtvDate = TextView(activity
+        val txtvDate = TextView(
+            activity
 
         )
         txtvDate.layoutParams = lp
@@ -119,5 +139,35 @@ class MainFragment : Fragment() {
         newTableRow.addView(txtvDate)
         appointmentTBL.addView(newTableRow, arrayListCounter + 1)
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    override fun onStart() {
+        super.onStart()
+
+        database = Firebase.database.reference
+
+        mAuth = FirebaseAuth.getInstance()
+
+        if( mAuth!!.currentUser != null) {
+            val menuListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    dataSnapshot.children.mapNotNullTo(appointmentArrayList) {
+                        it.getValue<PatientDetailsModel>(
+                            PatientDetailsModel::class.java
+                        )
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    println("loadPost:onCancelled ${databaseError.toException()}")
+                }
+            }
+            database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
+                .addListenerForSingleValueEvent(menuListener)
+
+            populateAppointments()
+        }
     }
 }

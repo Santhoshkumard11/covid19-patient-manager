@@ -39,6 +39,7 @@ class AddAppointmentFragment : Fragment() {
     private var minute: Int = 0
 
     private var listener: AddAppointmentFragment.OnItemSelectedListener? = null
+
     //firebase authenticaiton
     private var mAuth: FirebaseAuth? = null
     //firebase database
@@ -122,6 +123,7 @@ class AddAppointmentFragment : Fragment() {
         val date = activity!!.findViewById<View>(R.id.txttvDate) as TextView
         date.setOnClickListener { showDatePicker() }
     }
+
 
     interface OnItemSelectedListener {
         fun onAddAppointmentSelected(appt: PatientDetailsModel)
@@ -283,8 +285,7 @@ class AddAppointmentFragment : Fragment() {
 
         patientCount += 1
 
-        database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Detials").child(myModel!!.count.toString()).setValue(myModel)
-
+        database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details").child(myModel!!.count.toString()).setValue(myModel)
 
 
     }

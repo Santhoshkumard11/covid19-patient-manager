@@ -4,23 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Patterns
-import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import com.example.covid19_patient_manager.Model.AdminModel
 import com.example.covid19_patient_manager.R
 import kotlinx.android.synthetic.main.login_layout.*
-import com.example.covid19_patient_manager.Controller.ValidationClass.*
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.example.covid19_patient_manager.Model.User
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -48,8 +42,8 @@ class LoginActivity : AppCompatActivity() {
         val auth = FirebaseAuth.getInstance()
 
 
-        if ( auth.currentUser != null)
-        {
+        if ( auth.currentUser != null) {
+
             Toast.makeText(applicationContext, "Welcome Again ${auth.currentUser!!.displayName}", Toast.LENGTH_LONG).show()
             // already signed in
             startActivity(Intent( this, DashboardActivity::class.java))
@@ -98,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } else {
 
-                    loginTransationLogsToDatabase()
+                    loginTransactionLogsToDatabase()
 
 
                     startActivity(Intent(this, DashboardActivity::class.java))
@@ -106,7 +100,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-
 
 
 
@@ -186,7 +179,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    fun loginTransationLogsToDatabase() {
+    private fun loginTransactionLogsToDatabase() {
 
         val user = FirebaseAuth.getInstance().currentUser
 //        //                    writing to the database
@@ -194,19 +187,26 @@ class LoginActivity : AppCompatActivity() {
 
         // Write a message to the database
 
-
         val userId = user!!.uid
         val userName = user!!.displayName
         val emailAddress = user!!.email
 
+
         val myUser = User(userId.toString(), userName.toString(), emailAddress.toString())
 
-        database.child(userId.toString()).setValue(myUser)
+        database.child("loginUserLogs").child("Users").child(userId.toString()).setValue(myUser)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Success added to the database",Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(this, "data added to the database",Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener{
+                Toast.makeText(this, "Failed to add to database",Toast.LENGTH_SHORT).show()
+
+            }
 
 
     }
+
 
 
 }

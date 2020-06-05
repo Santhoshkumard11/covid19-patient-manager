@@ -194,7 +194,7 @@ class LoginActivity : AppCompatActivity() {
 
         val myUser = User(userId.toString(), userName.toString(), emailAddress.toString())
 
-        database.child("loginUserLogs").child("Users").child(userId.toString()).setValue(myUser)
+        database.child("Users").child(userId.toString()).setValue(myUser)
             .addOnSuccessListener {
                 Toast.makeText(this, "Success added to the database",Toast.LENGTH_SHORT).show()
 

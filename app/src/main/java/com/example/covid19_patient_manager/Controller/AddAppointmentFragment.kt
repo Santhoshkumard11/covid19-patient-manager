@@ -18,6 +18,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import com.example.covid19_patient_manager.Model.PatientDetailsModel
 import com.example.covid19_patient_manager.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 import java.util.Calendar;
 
@@ -34,6 +38,11 @@ class AddAppointmentFragment : Fragment() {
     private var minute: Int = 0
 
     private var listener: AddAppointmentFragment.OnItemSelectedListener? = null
+
+    private var mAuth: FirebaseAuth? = null
+
+    private lateinit var database: DatabaseReference
+
 
     internal var ondate: DatePickerDialog.OnDateSetListener = DatePickerDialog.OnDateSetListener { view, selectedYear, selectedMonth, selectedDay ->
         year = selectedYear
@@ -69,10 +78,13 @@ class AddAppointmentFragment : Fragment() {
                 val app = PatientDetailsModel(editAppointmentName.text.toString(), spinnerAppointmentType.selectedItem.toString(),
                         DisplayTheMonthInCharacters(month), day, year, FormatTheHour(hour), minute, AMorPM(hour))
 
+                        //add model to the firebase database
+                        addModelToDatabase(app)
+
+
                 listener!!.onAddAppointmentSelected(app)
             } else {
-                val toast = Toast.makeText(activity, "Please enter an Appointment Name", Toast.LENGTH_SHORT)
-                toast.show()
+                    Toast.makeText(activity, "Please enter the patient Name", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -247,4 +259,18 @@ class AddAppointmentFragment : Fragment() {
             return TimePickerDialog(activity, onTimeSet, hour, minute, false)
         }
     }
+
+    private fun addModelToDatabase( myModel: PatientDetailsModel)
+    {
+        database = Firebase.database.reference
+        mAuth = FirebaseAuth.getInstance()
+
+        database.child("Users").child(mAuth!!.uid.toString()).setValue(myModel)
+
+    }
+
+
+
 }
+
+

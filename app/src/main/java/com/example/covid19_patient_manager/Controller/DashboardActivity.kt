@@ -81,7 +81,7 @@ class DashboardActivity : AppCompatActivity(), MainFragment.OnItemSelectedListen
     }
 
 
-    fun onClickSwithUser(view: View){
+    fun onClickSwitchUser(view: View){
 
         FirebaseAuth.getInstance().signOut()
 

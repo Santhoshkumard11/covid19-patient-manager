@@ -282,6 +282,7 @@ class AddAppointmentFragment : Fragment() {
 
         //for counting the number of patients added to the database
         myModel.count = patientCount
+        myModel.doctorName = mAuth!!.currentUser!!.displayName!!
 
         patientCount += 1
 

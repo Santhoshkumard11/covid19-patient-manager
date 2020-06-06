@@ -1,14 +1,13 @@
 package com.example.covid19_patient_manager.Controller
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.method.TextKeyListener.clear
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -29,8 +28,9 @@ import java.text.SimpleDateFormat
 class MainFragment : Fragment() {
 
     companion object {
-        var appointmentArrayList = ArrayList<PatientDetailsModel>()
+
         var appointmentArrayListFireBaseDatabase = ArrayList<PatientDetailsModel>()
+        var appointmentArrayList = ArrayList<PatientDetailsModel>()
         var count :Int = 0
     }
 
@@ -64,6 +64,9 @@ class MainFragment : Fragment() {
         }
     }
 
+
+
+
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -88,27 +91,30 @@ class MainFragment : Fragment() {
                 }
             }
             database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
-                .addListenerForSingleValueEvent(menuListener)
+                .addValueEventListener(menuListener)
 
+//            appointmentArrayList = appointmentArrayListFireBaseDatabase
+
+            if( count ==0) {
+
+                populateAppointments("firebaseDatabase")
+                count += 1
+
+//              push the data again back to the firebase database
+
+                //for counting the number of patients added to the database
+            }
+                for ( myModel in appointmentArrayListFireBaseDatabase) {
+
+                    myModel.doctorName = mAuth!!.currentUser!!.displayName!!
+
+                    database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
+                        .child(myModel!!.count.toString()).setValue(myModel)
+
+
+            }
             populateAppointments("")
 
-            if( count ==0)
-            {
-                populateAppointments("firebaseDatabase")
-                count +=1
-            }
-
-//            push the data again back to the firebase database
-            database = Firebase.database.reference
-            mAuth = FirebaseAuth.getInstance()
-
-            //for counting the number of patients added to the database
-
-            for ( myModel in appointmentArrayListFireBaseDatabase) {
-
-                database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
-                    .child(myModel!!.count.toString()).setValue(myModel)
-            }
 
         }
 
@@ -134,7 +140,7 @@ class MainFragment : Fragment() {
         else
         {
             for (i in appointmentArrayListFireBaseDatabase.indices) {
-                PopulateTable(i, "fireBaseDatabase")
+                PopulateTable(i, "firebaseDatabase")
             }
 
         }
@@ -199,6 +205,7 @@ class MainFragment : Fragment() {
             newTableRow.addView(txtvName)
             newTableRow.addView(txtvType)
             newTableRow.addView(txtvDate)
+
             appointmentTBL.addView(newTableRow, arrayListCounter + 1)
         }
         //add from the firebase database
@@ -245,5 +252,6 @@ class MainFragment : Fragment() {
             appointmentTBL.addView(newTableRow, arrayListCounter + 1)
         }
     }
+
 
 }

@@ -55,6 +55,22 @@ class DashboardActivity : AppCompatActivity(), MainFragment.OnItemSelectedListen
         ft.commit()
     }
 
+
+    // show the confirmation dialog box when back button is clicked
+    override fun onBackPressed() {
+        AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Do you really want to quit???")
+            .setMessage("")
+            .setPositiveButton("Yes, Quit!!",
+                DialogInterface.OnClickListener { dialog, which -> finish()
+                    FirebaseAuth.getInstance().signOut()
+                })
+            .setNegativeButton("No, Stay", null)
+            .show()
+    }
+
+
     fun onClickLogout(view: View) {
         FirebaseAuth.getInstance().signOut()
         val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))

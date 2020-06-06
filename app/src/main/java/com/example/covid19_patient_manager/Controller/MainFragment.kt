@@ -30,7 +30,12 @@ class MainFragment : Fragment() {
 
     companion object {
         var appointmentArrayList = ArrayList<PatientDetailsModel>()
+        var appointmentArrayListFireBaseDatabase = ArrayList<PatientDetailsModel>()
+        var count :Int = 0
     }
+
+
+
     private var listener: OnItemSelectedListener? = null
 
     //firebase authenticaiton
@@ -63,6 +68,50 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        database = Firebase.database.reference
+
+        mAuth = FirebaseAuth.getInstance()
+
+        if( mAuth!!.currentUser != null) {
+            val menuListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    dataSnapshot.children.mapNotNullTo(appointmentArrayListFireBaseDatabase) {
+                        it.getValue<PatientDetailsModel>(
+                            PatientDetailsModel::class.java
+                        )
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    println("loadPost:onCancelled ${databaseError.toException()}")
+                }
+            }
+            database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
+                .addListenerForSingleValueEvent(menuListener)
+
+            populateAppointments("")
+
+            if( count ==0)
+            {
+                populateAppointments("firebaseDatabase")
+                count +=1
+            }
+
+//            push the data again back to the firebase database
+            database = Firebase.database.reference
+            mAuth = FirebaseAuth.getInstance()
+
+            //for counting the number of patients added to the database
+
+            for ( myModel in appointmentArrayListFireBaseDatabase) {
+
+                database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
+                    .child(myModel!!.count.toString()).setValue(myModel)
+            }
+
+        }
+
     }
 
     interface OnItemSelectedListener {
@@ -74,12 +123,23 @@ class MainFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun populateAppointments() {
+    private fun populateAppointments( databaseType: String) {
 
+
+        if( databaseType != "firebaseDatabase")
         for (i in appointmentArrayList.indices) {
-            PopulateTable(i)
+            PopulateTable(i,"")
+        }
+        // add the data from firebase database
+        else
+        {
+            for (i in appointmentArrayListFireBaseDatabase.indices) {
+                PopulateTable(i, "fireBaseDatabase")
+            }
+
         }
     }
+
 
     private fun SetToDateAndTime(appointment: PatientDetailsModel): String {
         val currentDateAndTime = System.currentTimeMillis() //Todays Date
@@ -97,77 +157,93 @@ class MainFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun PopulateTable(arrayListCounter: Int) {
-        val appointmentTBL = activity!!.findViewById<View>(R.id.tblTaskContent) as TableLayout
+    private fun PopulateTable(arrayListCounter: Int, databaseType: String) {
 
-        val newTableRow = TableRow(activity)
-        val lp = TableRow.LayoutParams(
-            TableRow.LayoutParams.MATCH_PARENT,
-            TableRow.LayoutParams.WRAP_CONTENT
-        )
-        newTableRow.layoutParams = lp
+        if(databaseType != "firebaseDatabase" ) {
+            val appointmentTBL = activity!!.findViewById<View>(R.id.tblTaskContent) as TableLayout
 
-        val txtvName = TextView(activity)
-        txtvName.layoutParams = lp
-        txtvName.gravity = Gravity.CENTER
-        txtvName.text = appointmentArrayList[arrayListCounter].name
-        txtvName.width = 140
-        txtvName.textSize = 12f
-        txtvName.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            val newTableRow = TableRow(activity)
+            val lp = TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+            )
+            newTableRow.layoutParams = lp
 
-        val txtvType = TextView(activity)
-        txtvType.layoutParams = lp
-        txtvType.gravity = Gravity.CENTER
-        txtvType.text = appointmentArrayList[arrayListCounter].type
-        txtvType.width = 93
-        txtvType.textSize = 12f
-        txtvType.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            val txtvName = TextView(activity)
+            txtvName.layoutParams = lp
+            txtvName.gravity = Gravity.CENTER
+            txtvName.text = appointmentArrayList[arrayListCounter].name
+            txtvName.width = 140
+            txtvName.textSize = 12f
+            txtvName.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-        val txtvDate = TextView(
-            activity
+            val txtvType = TextView(activity)
+            txtvType.layoutParams = lp
+            txtvType.gravity = Gravity.CENTER
+            txtvType.text = appointmentArrayList[arrayListCounter].type
+            txtvType.width = 93
+            txtvType.textSize = 12f
+            txtvType.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-        )
-        txtvDate.layoutParams = lp
-        txtvDate.gravity = Gravity.CENTER
-        txtvDate.text = SetToDateAndTime(appointmentArrayList[arrayListCounter])
-        txtvDate.width = 97
-        txtvDate.textSize = 12f
-        txtvDate.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            val txtvDate = TextView(
+                activity
 
-        newTableRow.addView(txtvName)
-        newTableRow.addView(txtvType)
-        newTableRow.addView(txtvDate)
-        appointmentTBL.addView(newTableRow, arrayListCounter + 1)
+            )
+            txtvDate.layoutParams = lp
+            txtvDate.gravity = Gravity.CENTER
+            txtvDate.text = SetToDateAndTime(appointmentArrayList[arrayListCounter])
+            txtvDate.width = 97
+            txtvDate.textSize = 12f
+            txtvDate.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-    }
+            newTableRow.addView(txtvName)
+            newTableRow.addView(txtvType)
+            newTableRow.addView(txtvDate)
+            appointmentTBL.addView(newTableRow, arrayListCounter + 1)
+        }
+        //add from the firebase database
+        else{
+            val appointmentTBL = activity!!.findViewById<View>(R.id.tblTaskContent) as TableLayout
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    override fun onResume() {
-        super.onResume()
+            val newTableRow = TableRow(activity)
+            val lp = TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+            )
+            newTableRow.layoutParams = lp
 
-        database = Firebase.database.reference
+            val txtvName = TextView(activity)
+            txtvName.layoutParams = lp
+            txtvName.gravity = Gravity.CENTER
+            txtvName.text = appointmentArrayListFireBaseDatabase[arrayListCounter].name
+            txtvName.width = 140
+            txtvName.textSize = 12f
+            txtvName.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-        mAuth = FirebaseAuth.getInstance()
+            val txtvType = TextView(activity)
+            txtvType.layoutParams = lp
+            txtvType.gravity = Gravity.CENTER
+            txtvType.text = appointmentArrayListFireBaseDatabase[arrayListCounter].type
+            txtvType.width = 93
+            txtvType.textSize = 12f
+            txtvType.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-        if( mAuth!!.currentUser != null) {
-            val menuListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val txtvDate = TextView(
+                activity
 
-                    dataSnapshot.children.mapNotNullTo(appointmentArrayList) {
-                        it.getValue<PatientDetailsModel>(
-                            PatientDetailsModel::class.java
-                        )
-                    }
-                }
+            )
+            txtvDate.layoutParams = lp
+            txtvDate.gravity = Gravity.CENTER
+            txtvDate.text = SetToDateAndTime(appointmentArrayListFireBaseDatabase[arrayListCounter])
+            txtvDate.width = 97
+            txtvDate.textSize = 12f
+            txtvDate.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    println("loadPost:onCancelled ${databaseError.toException()}")
-                }
-            }
-            database.child("Users").child(mAuth!!.uid.toString()).child("Patient_Details")
-                .addListenerForSingleValueEvent(menuListener)
-
-            populateAppointments()
+            newTableRow.addView(txtvName)
+            newTableRow.addView(txtvType)
+            newTableRow.addView(txtvDate)
+            appointmentTBL.addView(newTableRow, arrayListCounter + 1)
         }
     }
+
 }

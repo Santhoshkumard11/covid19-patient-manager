@@ -61,8 +61,8 @@ class DashboardActivity : AppCompatActivity(), MainFragment.OnItemSelectedListen
 
         with(builder)
         {
-            setTitle("Do you want to quit???")
-            setMessage("We have a message")
+            setTitle("Do you really want to quit???")
+            setMessage("")
                 .setCancelable(false)
                 // positive button text and action
                 .setPositiveButton("Yes, Quit", DialogInterface.OnClickListener {
@@ -75,6 +75,15 @@ class DashboardActivity : AppCompatActivity(), MainFragment.OnItemSelectedListen
 
             show()
         }
+
+//        startActivity(Intent(this, LoginActivity::class.java))
+
+    }
+
+
+    fun onClickSwithUser(view: View){
+
+        FirebaseAuth.getInstance().signOut()
 
         startActivity(Intent(this, LoginActivity::class.java))
 

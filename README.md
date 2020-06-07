@@ -11,9 +11,9 @@
 
 ## TODO 
 <br>
-Bug in database access
-Add more funationality in dashboard
-add menu for mavigation
+* Bug in database access
+* Add more funationality in dashboard
+* add menu for mavigation
 
 <br><br>
 

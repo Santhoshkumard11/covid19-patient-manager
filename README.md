@@ -11,7 +11,9 @@
 
 ## TODO 
 <br>
-The app has some minor bugs to be fixed (in database part).
+Bug in database access
+Add more funationality in dashboard
+add menu for mavigation
 
 <br><br>
 

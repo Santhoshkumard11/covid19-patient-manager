@@ -58,7 +58,7 @@ class DatabaseHelper {
         database.child("Users/${auth.uid.toString()}/Paitent_Detials/${patient.counter}").setValue(patient)
     }
 
-    fun delete(patient: PatientDetailsModel) {
-        database.child("Users/${auth.uid.toString()}/Patient_Detials").child("${patient.counter}").removeValue()
+    fun delete(ID : String) {
+        database.child("Users/${auth.uid.toString()}/Patient_Detials").child(ID).removeValue()
     }
 }

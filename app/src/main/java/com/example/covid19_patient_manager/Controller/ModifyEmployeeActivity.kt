@@ -3,6 +3,7 @@ package com.example.covid19_patient_manager.Controller
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.covid19_patient_manager.Model.PatientDetailsModel
 import com.example.covid19_patient_manager.R
 import kotlinx.android.synthetic.main.activity_modify_employee.*
 
@@ -33,10 +34,12 @@ class ModifyEmployeeActivity : AppCompatActivity() {
     }
 
     fun updateButtonPressed(view: View) {
-        val name = name_edittext!!.text.toString()
-        val address = address_edittext!!.text.toString()
+        var patient: PatientDetailsModel = PatientDetailsModel()
 
-        myHelper!!.update(ID, name, address)
+        patient.name = name_edittext!!.text.toString()
+        patient.gender = address_edittext!!.text.toString()
+
+        myHelper!!.update(patient)
 
         returnToMainActivity()
     }
@@ -45,4 +48,14 @@ class ModifyEmployeeActivity : AppCompatActivity() {
         myHelper!!.delete(ID)
         returnToMainActivity()
     }
+
+    fun onClickCancel(view: View){
+        returnToMainActivity()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        returnToMainActivity()
+    }
+
 }

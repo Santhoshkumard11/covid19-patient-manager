@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.covid19_patient_manager.Model.PatientDetailsModel
 import com.example.covid19_patient_manager.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_add_employee.*
 
 class AddEmployeeActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class AddEmployeeActivity : AppCompatActivity() {
 
         patient.name = patientNameEditText.text.toString()
         patient.gender = genderSelectSpinner.selectedItem.toString()
+        patient.doctorName = FirebaseAuth.getInstance().currentUser!!.uid.toString()
 
         myHelper!!.add(patient)
 

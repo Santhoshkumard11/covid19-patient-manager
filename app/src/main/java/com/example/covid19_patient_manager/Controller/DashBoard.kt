@@ -100,5 +100,7 @@ class DashboardActivity : AppCompatActivity() {
             finish()
     }
 
+    fun onClickCancel(view: View) {}
+
 
 }

@@ -17,4 +17,8 @@
     <string name="auth_failed">Authentication failed, check your email and password or sign in using google</string>
     <string name="entName">Patient Name</string>
     <string name="btn_sign_out">Logout</string>
+    <string name="enter_name">Patient Name</string>
+    <string name="enter_address">Patient Gender</string>
+    <string name="add_record">Add Record</string>
+
 </resources>

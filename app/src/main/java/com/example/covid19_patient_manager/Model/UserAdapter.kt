@@ -25,7 +25,7 @@ open class PatientAdapter(context: Context, users: ArrayList<PatientDetailsModel
 
         text1.text = user!!.counter
         text2.text = user.name
-        text3.text = user.type
+        text3.text = user.gender
 
         return convertView
     }

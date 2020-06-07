@@ -1,5 +1,6 @@
 # Covid19-patient-manager
 <br>
+
 ## 30daysofkotlin
 
 * This app is created to help the doctors manage the coronavirus affected patient. <br>
@@ -17,6 +18,7 @@ The app has some minor bugs to be fixed (in database part).
 ## Layout
 
 * Login layout
+![Login Layout](/images/login_page.png)
 * SignUp layout
 * Dashboard
 * List of patients layout

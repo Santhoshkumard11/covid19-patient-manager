@@ -9,7 +9,8 @@ import kotlinx.android.synthetic.main.activity_modify_employee.*
 
 class ModifyEmployeeActivity : AppCompatActivity() {
 
-    private var ID: String = ""
+
+    var ID : Int = 0
 
     private var myHelper: DatabaseHelper? = null
 
@@ -21,7 +22,7 @@ class ModifyEmployeeActivity : AppCompatActivity() {
         myHelper!!.open()
 
         val intent = intent
-        ID = intent.getStringExtra("id")
+        val ID = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
         val desc = intent.getStringExtra("address")
 

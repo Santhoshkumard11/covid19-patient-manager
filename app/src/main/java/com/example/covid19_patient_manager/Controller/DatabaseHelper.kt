@@ -13,14 +13,17 @@ class DatabaseHelper {
 
     val auth = FirebaseAuth.getInstance()
 
+    companion object{
+        var counter : Int = 1
+    }
+
     fun allEmployees(adapter: PatientAdapter?) {
-        var myReference: DatabaseReference = database.child("Users/${auth.uid.toString()}/Paitent_Detials")
+        var myReference: DatabaseReference = database.child("Users/${auth.uid.toString()}/Patient_Details")
 
         myReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 adapter?.clear()
 
-                var counter : Int = 1;
 
                 for (myUser in dataSnapshot.children) {
                     val user = myUser.getValue(PatientDetailsModel::class.java)
@@ -31,10 +34,13 @@ class DatabaseHelper {
                         return
                     }
 
-                    user._id = myUser.key!!
-                    user.counter = Integer.toString(counter++)
+                    user.counter = counter
+                    counter++
                     adapter?.add(user)
+
                 }
+//                adapter?.add(user)
+
             }
             override fun onCancelled(error: DatabaseError) {
                 // Failed to read value
@@ -48,17 +54,17 @@ class DatabaseHelper {
     }
 
     fun add(patient: PatientDetailsModel) {
-        val key = database.child("Users/${auth.uid.toString()}").push().key
+//        val key = database.child("Users/${auth.uid.toString()}").push().key
 
-        database.child("Users/${auth.uid.toString()}/Paitent_Detials/${patient.counter}").setValue(patient)
+        database.child("Users/${auth.uid.toString()}/Patient_Details").child("${counter.toString()}").setValue(patient)
 
     }
 
     fun update(patient: PatientDetailsModel) {
-        database.child("Users/${auth.uid.toString()}/Paitent_Detials/${patient.counter}").setValue(patient)
+        database.child("Users/${auth.uid.toString()}/Patient_Details").child("${counter.toString()}").setValue(patient)
     }
 
-    fun delete(ID : String) {
-        database.child("Users/${auth.uid.toString()}/Patient_Detials").child(ID).removeValue()
+    fun delete(ID : Int) {
+        database.child("Users/${auth.uid.toString()}/Patient_Details").child(ID.toString()).removeValue()
     }
 }

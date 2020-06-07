@@ -23,7 +23,7 @@ open class PatientAdapter(context: Context, users: ArrayList<PatientDetailsModel
         val text2 = convertView.findViewById<View>(R.id.name) as TextView
         val text3 = convertView.findViewById<View>(R.id.address) as TextView
 
-        text1.text = user!!.counter
+        text1.text = user!!.counter.toString()
         text2.text = user.name
         text3.text = user.gender
 

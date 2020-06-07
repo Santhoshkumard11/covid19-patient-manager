@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         progressBar.visibility = View.GONE
-        val user = FirebaseAuth.getInstance().currentUser
+//        val user = FirebaseAuth.getInstance().currentUser
 //        if( user == null)
 //            Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_LONG).show()
     }
@@ -194,6 +194,7 @@ class LoginActivity : AppCompatActivity() {
                 DialogInterface.OnClickListener { dialog, which -> finish() })
             .setNegativeButton("No, Stay", null)
             .show()
+
     }
 
 

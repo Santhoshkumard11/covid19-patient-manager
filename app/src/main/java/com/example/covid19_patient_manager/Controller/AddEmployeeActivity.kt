@@ -26,7 +26,7 @@ class AddEmployeeActivity : AppCompatActivity() {
 
         patient.name = patientNameEditText.text.toString()
         patient.gender = genderSelectSpinner.selectedItem.toString()
-        patient.doctorName = FirebaseAuth.getInstance().currentUser!!.uid.toString()
+//        patient.doctorName = FirebaseAuth.getInstance().currentUser!!.uid.toString()
 
         myHelper!!.add(patient)
 

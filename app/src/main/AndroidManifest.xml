@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Controller.MainDashboard"></activity>
-        <activity android:name=".Controller.DashBoard" />
-        <activity android:name=".Controller.DatabaseActivity" />
+        <activity android:name=".Controller.AddEmployeeActivity" />
+        <activity android:name=".Controller.ModifyEmployeeActivity" />
         <activity android:name=".Controller.SignUpActivity" />
         <activity android:name=".Controller.DashboardActivity" />
         <activity android:name=".Controller.LoginActivity">

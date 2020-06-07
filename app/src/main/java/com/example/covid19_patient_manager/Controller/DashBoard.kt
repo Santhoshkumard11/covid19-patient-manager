@@ -46,10 +46,11 @@ class DashboardActivity : AppCompatActivity() {
                 val modify_intent = Intent(applicationContext, ModifyEmployeeActivity::class.java)
                 modify_intent.putExtra("name", user?.name)
                 modify_intent.putExtra("address", user?.gender)
-                modify_intent.putExtra("id", user?._id)
+                modify_intent.putExtra("id", user!!._id)
 
                 startActivity(modify_intent)
             }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,14 +76,14 @@ class DashboardActivity : AppCompatActivity() {
     fun onClickSwitchUser(view: View){
 
 
-        AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setTitle("Switch user for sure???")
-            .setMessage("")
-            .setPositiveButton("Yes",
-                DialogInterface.OnClickListener { dialog, which -> finish() })
-            .setNegativeButton("No, Stay", null)
-            .show()
+//        AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))
+//            .setIcon(android.R.drawable.ic_dialog_alert)
+//            .setTitle("Switch user for sure???")
+//            .setMessage("")
+//            .setPositiveButton("Yes",
+//                DialogInterface.OnClickListener { dialog, which -> finish() })
+//            .setNegativeButton("No, Stay", null)
+//            .show()
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this,LoginActivity::class.java))
     }
@@ -100,7 +101,6 @@ class DashboardActivity : AppCompatActivity() {
             finish()
     }
 
-    fun onClickCancel(view: View) {}
 
 
 }

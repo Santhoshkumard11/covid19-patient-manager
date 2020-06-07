@@ -25,27 +25,26 @@ class MainDashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
             setContentView(R.layout.dashboard_layout)
 
-
-        fun onClickAddPatient(view: View){
-
-            startActivity(Intent(this,AddEmployeeActivity::class.java))
-        }
-
-
-        fun onClickPatientList(view: View){
-
-            startActivity(Intent(this,DashboardActivity::class.java))
-        }
-
-        fun onClickSignOut(view: View){
-            FirebaseAuth.getInstance().signOut()
-
-            startActivity(Intent(this,LoginActivity::class.java))
-        }
-
-
-
     }
+
+
+    fun onClickAddPatient(view: View){
+
+        startActivity(Intent(this,AddEmployeeActivity::class.java))
+    }
+
+
+    fun onClickPatientList(view: View){
+
+        startActivity(Intent(this,DashboardActivity::class.java))
+    }
+
+    fun onClickSignOut(view: View){
+        FirebaseAuth.getInstance().signOut()
+
+        startActivity(Intent(this,LoginActivity::class.java))
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

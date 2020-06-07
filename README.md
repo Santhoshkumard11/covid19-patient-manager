@@ -18,7 +18,7 @@ The app has some minor bugs to be fixed (in database part).
 ## Layout
 
 * Login layout
-![Login Layout](/images/login_page.png)
+![](/images/login_page.PNG)
 * SignUp layout
 * Dashboard
 * List of patients layout

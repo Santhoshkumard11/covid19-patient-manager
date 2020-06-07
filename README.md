@@ -20,8 +20,10 @@
 
 ## Layout
 
-* Login layout
 ![](/images/login_page.PNG)
+<br>
+
+* Login layout
 * SignUp layout
 * Dashboard
 * List of patients layout

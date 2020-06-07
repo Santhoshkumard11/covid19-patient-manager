@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">covid19-patient-manager</string>
 
-    <string-array name="task_type">
+    <string-array name="Gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
@@ -11,8 +11,7 @@
     <string name="dateTime">Admitted Date</string>
     <string name="addAppointButton">Add Patient</string>
     <string name="btnCancel">Cancel</string>
-
-
+    <string name="empty_list_text">No records found</string>
 
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign in using google</string>

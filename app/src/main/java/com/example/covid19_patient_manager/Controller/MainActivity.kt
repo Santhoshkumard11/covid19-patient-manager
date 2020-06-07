@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
 
             Toast.makeText(applicationContext, "Welcome Again ${auth.currentUser!!.displayName}", Toast.LENGTH_LONG).show()
             // already signed in
-            startActivity(Intent( this, DashboardActivity::class.java))
+            startActivity(Intent( this, MainDashboard::class.java))
             finish()
         }
 
@@ -79,6 +79,8 @@ class LoginActivity : AppCompatActivity() {
 
         progressBar.visibility = View.VISIBLE
 
+
+
         //authenticate user
         mAuth!!.signInWithEmailAndPassword(emailfield.text.toString(), passwordfield.text.toString())
             .addOnCompleteListener(this) { task ->
@@ -88,17 +90,18 @@ class LoginActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
                 if (!task.isSuccessful) {
                     // there was an error
-                    if (passwordfield.text.toString().length < 6) {
-                        passwordfield.error = getString(R.string.minimum_password)
-                    } else {
-                        Toast.makeText(this,getString(R.string.auth_failed), Toast.LENGTH_LONG).show()
-                    }
+//                    if (passwordfield.text.toString().length < 6) {
+//                        Toast.makeText(this,"password is is incorrect", Toast.LENGTH_LONG).show()
+//                    } else {
+                        Toast.makeText(this,"password is incorrect", Toast.LENGTH_LONG).show()
+                        passwordfield.error = "Enter the correct password"
+//                    }
                 } else {
 
                     loginTransactionLogsToDatabase()
 
 
-                    startActivity(Intent(this, DashboardActivity::class.java))
+                    startActivity(Intent(this, MainDashboard::class.java))
                     finish()
                 }
             }
@@ -143,7 +146,7 @@ class LoginActivity : AppCompatActivity() {
                 //successfully signed in
 
                 Toast.makeText(applicationContext, "Successfully signed in", Toast.LENGTH_LONG).show()
-                startActivity(Intent(this, DashboardActivity::class.java))
+                startActivity(Intent(this, MainDashboard::class.java))
             }
             else
                 Toast.makeText(applicationContext, "Failed to sign in", Toast.LENGTH_LONG).show()

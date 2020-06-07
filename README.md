@@ -6,6 +6,10 @@
 * This app is created to help the doctors manage the coronavirus affected patient. <br>
 * You can login with your mail id and password or use google sign. <br>
 * You will have options to add patients, edit their details and delete. (CRUD) 
+* The patient details will be stored on firebase realtime database
+
+✨✨__Fell free to pull and report issues__
+
 <br><br>
 
 
@@ -34,8 +38,6 @@
 Connect with me - <br>
 🎯🎯
 * [Linkedin](https://www.linkedin.com/in/santhosh-kumar-dhanasekaran-85a89b131/)
-
-<br>
 
 * [Youtube](https://www.youtube.com/channel/UCyJBMhkN3MlHHWWZrDDtXPQ)
 

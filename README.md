@@ -9,7 +9,7 @@
 <br><br>
 
 
-## TODO 
+## TODO ⚙⚙
 <br>
 
 * Bug in database access
@@ -18,7 +18,7 @@
 
 <br><br>
 
-## Layout
+## Layout 🌁🌆
 
 ![](/images/login_page.PNG)
 <br>
@@ -31,6 +31,13 @@
 * Update patients details layout
 
 
-Connect with me -
-![Linkedin] (https://www.linkedin.com/in/santhosh-kumar-dhanasekaran-85a89b131/)
+Connect with me - <br>
+🎯🎯
+* [Linkedin](https://www.linkedin.com/in/santhosh-kumar-dhanasekaran-85a89b131/)
+<br>
+* [Youtube](https://www.youtube.com/channel/UCyJBMhkN3MlHHWWZrDDtXPQ)
+
+* [Twitter](https://twitter.com/santhos12551)
+
+* [Instagram](https://www.instagram.com/santhoshgoku/?hl=en)
 
